@@ -1,10 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react"
 import { Start } from "./screens/Start";
 import { wordsList } from "./data";
 import { Game } from "./screens/Game";
 import { End } from "./screens/End";
 import { WordListPorps } from "./@types/WordListProps";
-import { Stage } from "./@types/StagesType";
+
+type Stage = {
+  id: number;
+  name: string;
+}
+
+type WordCategory = {
+  [key: string]: string[];
+}
 
 const stages: Stage[] = [
   { id: 1, name: "start" },
@@ -13,47 +21,42 @@ const stages: Stage[] = [
 ];
 
 function App() {
-  const [gameStage, setGameStage] = useState(stages[0].name);
-  const [words] = useState<WordListPorps>(wordsList);
+  const [gameStage, setGameStage] = useState<string>(stages[0].name);
+  const [words] = useState<WordCategory>(wordsList);
 
-  const [pickedWord, setPickedWord] = useState("");
-  const [pickedCategory, setpPickedCategory] = useState("");
-  const [letters, setLetters] = useState< string[]>([]);
+  const [pickedWord, setPickedWord] = useState<string>("");
+  const [pickedCategory, setPickedCategory] = useState<string>("");
+  const [letters, setLetters] = useState<string[]>([]);
 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongLetters, setWrongLetters] = useState<string[]>([]);
-  const [guesses, setGuesses] = useState(5);
-  const [score, setScore] = useState(0);
+  const [guesses, setGuesses] = useState<number>(5);
+  const [score, setScore] = useState<number>(0);
 
   const pickWordAndCategory = useCallback(() => {
     const categories = Object.keys(words);
-    const category =
-      categories[Math.floor(Math.random() * Object.keys(categories).length)];
+    const category = categories[Math.floor(Math.random() * categories.length)];
 
-    const word: string =
-      words[category][Math.floor(Math.random() * words[category].length)];
+    const word: string = words[category][Math.floor(Math.random() * words[category].length)];
 
     return { word, category };
   }, [words]);
 
   const startGame = useCallback(() => {
     clearLetterStates();
-    const { word, category }: { word: string; category: string } =
-      pickWordAndCategory();
+    const { word, category } = pickWordAndCategory();
 
-    let wordLetterArray: string[] = word.split("");
-    wordLetterArray =
-      wordLetterArray && wordLetterArray.map((letter) => letter.toLowerCase());
+    let wordLetters: string[] = word.split("");
+    wordLetters = wordLetters.map((letter) => letter.toLowerCase());
 
     setPickedWord(word);
-    setpPickedCategory(category);
-    setLetters(wordLetterArray);
+    setPickedCategory(category);
+    setLetters(wordLetters);
 
     setGameStage(stages[1].name);
   }, [pickWordAndCategory]);
 
-  //process the letter input
-  const verifyLetter: (letter: string) => void = (letter) => {
+  const verifyLetter = (letter: string): void => {
     const normalizedLetter = letter.toLowerCase();
 
     if (
@@ -77,7 +80,7 @@ function App() {
     }
   };
 
-  const clearLetterStates = () => {
+  const clearLetterStates = (): void => {
     setGuessedLetters([]);
     setWrongLetters([]);
   };
@@ -89,31 +92,27 @@ function App() {
     }
   }, [guesses]);
 
-  //check win condition
   useEffect(() => {
     const uniqueLetters = [...new Set(letters)];
 
-    //win condition
     if (
       guessedLetters.length === uniqueLetters.length &&
       gameStage === stages[1].name
     ) {
       setScore((actualScore) => (actualScore += 100));
-
-      //restart game whith new word
       startGame();
     }
-  }, [ guessedLetters, letters, startGame, gameStage ]);
+  }, [guessedLetters, letters, startGame]);
 
-  //restart the game
-  const retry = () => {
+  const retry = (): void => {
     setScore(0);
     setGuesses(5);
     setGameStage(stages[0].name);
   };
+
   return (
-    <div className="flex items-center  justify-center min-h-screen h-auto w-full mx-auto text-center  px-10 md:w-screen  md:h-screen bg-[#252525] text-white 0 ">
-      {gameStage === "start" && <Start startGame={startGame} />}
+    <div className="flex items-center justify-center min-h-screen h-auto w-full mx-auto text-center px-10 md:w-screen md:h-screen bg-[#252525] text-white 0 ">
+      {gameStage === 'start' && <Start startGame={startGame} />}
 
       {gameStage === "game" && (
         <Game
