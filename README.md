@@ -1,54 +1,30 @@
-# Jogo da Palavra Secreta
+# React + TypeScript + Vite
 
-Este é um jogo de adivinhação de palavras onde o usuário tenta acertar palavras com base em dicas fornecidas. O projeto é desenvolvido usando o Tailwind CSS e React para criar um design responsivo e amigável.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Como Jogar
+Currently, two official plugins are available:
 
-1. Abra o jogo no seu navegador.
-2. O jogo irá apresentar uma dica que descreve a palavra secreta que você deve adivinhar.
-3. Use o campo de entrada para digitar a sua resposta.
-4. Após inserir sua resposta, clique no botão "Enviar" para verificar se está correto.
-5. Se você acertar, parabéns! Você ganha 100 pontos e vai pra próxima palavra.
-6. Se você errar, continue tentando até acertar a palavra secreta.
-6. Você tem cinco tentativas para tentar acertar a palavra.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Tecnologias Usadas
+## Expanding the ESLint configuration
 
-Este projeto utiliza as seguintes tecnologias:
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-* [Tailwind CSS](https://tailwindcss.com/): Um framework CSS utilitário que permite criar rapidamente interfaces de usuário bonitas e responsivas.
+- Configure the top-level `parserOptions` property like this:
 
-* [React](https://reactjs.org/): Uma biblioteca JavaScript popular para construir interfaces de usuário interativas e reativas.
+```js
+export default {
+  // other rules...
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
+}
+```
 
-## Como Executar o Projeto
-
-Siga estas etapas para executar o projeto em sua máquina:
-
-1. Clone este repositório para o seu ambiente local.
-   ```shell
-   git clone https://github.com/seu-usuario/jogo-da-palavra-secreta.git
-   ```
-
-2. Instale as dependências do projeto.
-    ```shell
-   npm install
-   ```
-3. Inicie o servidor de desenvolvimento..
-    ```shell
-   npm run dev
-   ```
-
-## Exemplo
-
-Você pode visualizar um exemplo desta página de login do Spotify clonada [aqui](https://secretwordgamebyjota.netlify.app/).
-
-## Contribuição
-
-Se você deseja contribuir para melhorar este clone da página de login do Spotify, sinta-se à vontade para abrir um problema ou enviar uma solicitação de pull request.
-
-
-## Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
-
-Feito com ❤️ por [Ivan Jr.](https://github.com/ivanfrancajunior)
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
